@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!-- Idioma da página (WCAG 3.1.1). -->
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Aplica a paleta salva ANTES de a página ser desenhada, evitando um
+       "pisca" de cores. O restante da lógica fica em js/tema.js. -->
+  <script>
+    try { if (localStorage.getItem('paleta') === 'daltonismo') document.documentElement.setAttribute('data-paleta', 'daltonismo'); } catch (e) {}
+  </script>
+
+  <!-- Cada página precisa de um título DIFERENTE e descritivo (WCAG 2.4.2). -->
+  <title>Projetos — Gustavo Kogistski Correa | Desenvolvimento de Sistemas</title>
+
+  <!-- Mesma ordem de CSS do index.html. -->
+  <link rel="stylesheet" href="css/reset.css" />        <!-- zera diferenças entre navegadores -->
+  <link rel="stylesheet" href="css/variaveis.css" />    <!-- cores, fontes, espaços e paleta para daltonismo -->
+  <link rel="stylesheet" href="css/base.css" />         <!-- texto, links, foco, skip link -->
+  <link rel="stylesheet" href="css/layout.css" />       <!-- cabeçalho fixo, grids, responsividade -->
+  <link rel="stylesheet" href="css/componentes.css" />  <!-- menu, cards, tabela, formulário, botões -->
+
+  <!-- Scripts desta página (defer = rodam depois de ler o HTML). -->
+  <script src="js/menu.js" defer></script>      <!-- menu hambúrguer -->
+  <script src="js/tema.js" defer></script>      <!-- modo daltonismo -->
+  <script src="js/projetos.js" defer></script>  <!-- cards dinâmicos + filtro -->
+</head>
+
+<body>
+
+  <!-- Skip link (WCAG 2.4.1): atalho para o conteúdo principal. -->
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
+  <!-- Cabeçalho igual ao do index.html, para a navegação ser consistente
+       entre as páginas (WCAG 3.2.3). -->
+  <header>
+    <h1>Kogistski Correa</h1>
+    <p>Estudante do Curso Técnico em Desenvolvimento de Sistemas</p>
+
+    <nav aria-label="Principal">
+      <button type="button" class="menu-botao"
+              aria-expanded="false" aria-controls="menu-principal">Menu</button>
+      <ul id="menu-principal">
+        <li><a href="index.html">Início</a></li>
+        <!-- aria-current="page" marca a página atual (o CSS destaca com negrito). -->
+        <li><a href="projetos.html" aria-current="page">Projetos</a></li>
+      </ul>
+    </nav>
+
+    <button type="button" id="botao-daltonismo" aria-pressed="false">Modo daltonismo</button>
+  </header>
+
+  <main id="conteudo-principal" tabindex="-1">
+
+    <section id="catalogo" aria-labelledby="titulo-catalogo">
+      <h2 id="titulo-catalogo">Meus projetos</h2>
+
+      <!-- FILTRO POR CATEGORIA
+           role="group" + aria-label dão um nome ao conjunto de botões.
+           aria-pressed indica qual filtro está ativo (atualizado por js/projetos.js). -->
+      <div id="filtros" role="group" aria-label="Filtrar por categoria">
+        <button type="button" data-categoria="todos" aria-pressed="true">Todos</button>
+        <button type="button" data-categoria="web" aria-pressed="false">Web</button>
+        <button type="button" data-categoria="sistemas" aria-pressed="false">Sistemas</button>
+        <button type="button" data-categoria="dados" aria-pressed="false">Dados</button>
+      </div>
+
+      <!-- Região anunciada por leitores de tela quando o filtro muda
+           (ex.: "3 projeto(s) exibido(s)..."). Fica invisível na tela.
+           WCAG 4.1.3 — Mensagens de status. -->
+      <p id="status-filtro" role="status" aria-live="polite" class="sr-only"></p>
+
+      <!-- Os cards são criados por js/projetos.js a partir de data/projetos.json.
+           Para adicionar um projeto, edite apenas o JSON. -->
+      <div id="lista-projetos-cards"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Seu Nome Sobrenome — Projeto acadêmico.</p>
+  </footer>
+
+</body>
+</html>

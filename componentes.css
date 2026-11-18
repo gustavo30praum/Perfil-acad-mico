@@ -1,0 +1,243 @@
+/* ==========================================================================
+   COMPONENTES.CSS  |  Quinto e último arquivo
+   Partes reutilizáveis: links do menu, cards, etiquetas, tabela,
+   formulário e botão.
+   ========================================================================== */
+
+/* ---------- LINKS DO MENU ----------
+   Área clicável de no mínimo 44px de altura (WCAG 2.5.8). */
+nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--alvo-minimo);
+  padding-inline: var(--espaco-s);
+}
+/* Página atual destacada com negrito e sublinhado grosso: não depende só da
+   cor (WCAG 1.4.1). Use aria-current="page" no link da página aberta. */
+nav a[aria-current="page"] {
+  font-weight: 700;
+  text-decoration-thickness: 3px;
+}
+
+/* ---------- CARD (cada <article> de projeto) ---------- */
+article {
+  display: flex;
+  flex-direction: column;              /* título, texto e link empilhados */
+  align-items: flex-start;
+  gap: var(--espaco-s);
+  padding: var(--espaco-m);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);  /* borda ajuda a identificar o card */
+  border-radius: var(--raio);
+}
+
+/* ---------- ETIQUETAS DE HABILIDADE ---------- */
+#habilidades li {
+  padding: var(--espaco-xs) var(--espaco-m);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 999px;                /* formato de pílula */
+}
+
+/* ---------- TABELA DE FORMAÇÃO (Encontro 3) ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;           /* bordas únicas entre as células */
+}
+caption {
+  text-align: left;                    /* legenda da tabela */
+  font-weight: 600;
+  padding-bottom: var(--espaco-s);
+}
+th,
+td {
+  padding: var(--espaco-s);
+  border: 1px solid var(--cor-borda);
+  text-align: left;
+  overflow-wrap: anywhere;             /* quebra palavras longas em telas de 320px */
+}
+thead th {
+  background: var(--cor-superficie);   /* cabeçalho de colunas destacado */
+}
+tbody th {
+  font-weight: 600;                    /* cabeçalho de linha (th scope="row") */
+}
+
+/* Opcional: envolva a <table> em <div class="tabela-rolavel"> se tiver muitas
+   colunas. A rolagem fica só dentro da tabela, não na página inteira. */
+.tabela-rolavel {
+  overflow-x: auto;
+}
+
+/* ---------- FORMULÁRIO (Encontro 3) ---------- */
+label {
+  font-weight: 600;                    /* rótulo sempre visível (WCAG 3.3.2) */
+  margin-top: var(--espaco-s);
+}
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  width: 100%;
+  min-height: var(--alvo-minimo);
+  padding: var(--espaco-s);
+  background: var(--cor-fundo);
+  border: 2px solid var(--cor-borda);  /* contraste de 3:1 (WCAG 1.4.11) */
+  border-radius: var(--raio);
+}
+
+/* Grupo de opções (fieldset + legend) */
+fieldset {
+  padding: var(--espaco-s) var(--espaco-m) var(--espaco-m);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio);
+}
+legend {
+  padding-inline: var(--espaco-s);
+  font-weight: 600;
+}
+/* Rótulos dos botões de opção ficam na mesma linha do campo. */
+fieldset label {
+  display: inline-block;
+  font-weight: 400;
+  margin-right: var(--espaco-m);
+}
+input[type="radio"],
+input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--cor-primaria);
+}
+
+/* Campos inválidos recebem borda de destaque (a mensagem de erro em texto
+   vem com o JavaScript do Encontro 8, para não depender só da cor). */
+input:user-invalid,
+textarea:user-invalid {
+  border-color: #b91c1c;
+  border-width: 3px;
+}
+
+/* ---------- BOTÃO ---------- */
+button,
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--alvo-minimo);      /* 44px */
+  min-width: var(--alvo-minimo);
+  padding: var(--espaco-s) var(--espaco-l);
+  background: var(--cor-primaria);
+  color: var(--cor-texto-botao);
+  border: 2px solid var(--cor-primaria);
+  border-radius: var(--raio);
+  font-weight: 600;
+  text-decoration: none;               /* .botao pode ser aplicado a links */
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+button:hover,
+.botao:hover {
+  background: var(--cor-destaque);
+  border-color: var(--cor-destaque);
+  color: var(--cor-texto-botao);
+}
+button:active,
+.botao:active {
+  transform: translateY(1px);          /* feedback ao clicar */
+}
+button:disabled,
+.botao[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* O foco visível dos botões vem de base.css (:focus-visible). */
+
+/* ---------- MOVIMENTO REDUZIDO (WCAG 2.3.3) ----------
+   Se o usuário pediu menos animação no sistema, desligamos as transições. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   INTERATIVIDADE (Encontros 7 e 8)
+   Estilos do menu hambúrguer, botões liga/desliga, filtros e erros.
+   ========================================================================== */
+
+/* ---------- TEXTO SÓ PARA LEITORES DE TELA ----------
+   Usado na região aria-live do filtro: invisível, mas lida pelo leitor. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- MENU HAMBÚRGUER ----------
+   Melhoria progressiva: o botão fica escondido por padrão. Só aparece no
+   celular E quando o JavaScript está ativo (classe "js" no <html>, criada
+   em js/menu.js). Sem JavaScript, o menu comum continua visível. */
+.menu-botao { display: none; }
+
+@media (max-width: 599px) {
+  .js .menu-botao { display: inline-flex; }
+  .js nav ul { display: none; }                                  /* menu fechado */
+  .js nav ul.aberto { display: flex; flex-direction: column; }   /* menu aberto */
+}
+
+/* ---------- BOTÕES LIGA/DESLIGA (modo daltonismo e filtros) ----------
+   O estado "pressionado" ganha um ✓: a informação não depende só da cor
+   (WCAG 1.4.1). */
+button[aria-pressed="true"]::before { content: "\2713\00a0"; }
+button[aria-pressed="true"] {
+  background: var(--cor-destaque);
+  border-color: var(--cor-destaque);
+}
+
+/* ---------- FILTROS DE PROJETOS ---------- */
+#filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-s);
+  margin-bottom: var(--espaco-m);
+}
+
+/* ---------- ERROS DO FORMULÁRIO (js/formulario.js) ----------
+   O prefixo "Erro:" garante que a informação não dependa só da cor. */
+.erro {
+  color: var(--cor-erro);
+  font-weight: 600;
+}
+.erro::before { content: "Erro: "; }
+
+/* Campo com erro: borda mais grossa e TRACEJADA. O formato da borda é uma
+   pista que não depende de cor (útil para daltonismo, WCAG 1.4.1). */
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--cor-erro);
+  border-width: 3px;
+  border-style: dashed;
+}
+
+/* Mensagem de status do formulário (sucesso ou resumo de erros). */
+#resumo-form {
+  margin-top: var(--espaco-s);
+  font-weight: 600;
+}
+
+/* ---------- MODO DALTONISMO: reforços que NÃO dependem de cor ----------
+   Além de trocar as cores, o modo daltonismo acrescenta pistas visuais de
+   forma e espessura, para que nenhuma informação dependa só do matiz. */
+:root[data-paleta="daltonismo"] a { text-decoration-thickness: 2px; }
+:root[data-paleta="daltonismo"] article { border-left: 6px solid var(--cor-primaria); }
+:root[data-paleta="daltonismo"] nav a[aria-current="page"] { text-decoration-style: double; }

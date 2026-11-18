@@ -1,0 +1,113 @@
+/* ==========================================================================
+   BASE.CSS  |  Terceiro arquivo
+   Estilo geral dos elementos HTML: texto, títulos, links, listas, foco e
+   skip link. Não usa classes: funciona direto no HTML dos Encontros 1 a 3.
+   ========================================================================== */
+
+/* ---------- PÁGINA ---------- */
+body {
+  font-family: var(--fonte-base);
+  font-size: var(--tamanho-base);
+  line-height: var(--altura-linha);
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+
+  /* Corpo em coluna: o <main> cresce (flex: 1) e empurra o rodapé para o fim
+     da tela mesmo em páginas curtas. A largura máxima de leitura agora fica no
+     <main> (layout.css), para que cabeçalho e rodapé ocupem a tela toda. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;       /* altura real em celulares (barra do navegador) */
+  margin: 0;
+}
+
+/* ---------- TÍTULOS ----------
+   Tamanhos em rem: acompanham o ajuste de fonte do navegador (WCAG 1.4.4).
+   A hierarquia visual segue a hierarquia do HTML (h1 > h2 > h3). */
+h1 { font-size: 2rem;    line-height: 1.2; color: var(--cor-primaria); }
+h2 { font-size: 1.5rem;  line-height: 1.3; color: var(--cor-primaria); margin-bottom: var(--espaco-m); }
+h3 { font-size: 1.25rem; line-height: 1.3; }
+
+/* ---------- PARÁGRAFOS E TEXTO ---------- */
+p + p { margin-top: var(--espaco-s); }
+
+/* ---------- TEXTO JUSTIFICADO (classe .texto-justificado) ----------
+   Use em parágrafos que ocupam mais de uma linha: class="texto-justificado".
+   - text-align: justify  alinha as duas margens, como em livros e jornais.
+   - hyphens: auto        permite separar palavras no fim da linha (usa o
+                          idioma lang="pt-BR" da página) e evita grandes
+                          "buracos" entre as palavras.
+   - text-align-last      mantém a última linha alinhada à esquerda.
+   Acessibilidade: o texto justificado pode dificultar a leitura de pessoas
+   com dislexia (WCAG 1.4.8, nível AAA). Por isso a classe é opcional e fica
+   só nos parágrafos longos. Para desligar em telas pequenas, envolva a regra
+   em @media (min-width: 600px) { ... }. */
+.texto-justificado {
+  text-align: justify;
+  text-justify: inter-word;
+  text-align-last: left;
+  -webkit-hyphens: auto;   /* Safari */
+  hyphens: auto;
+}
+strong { font-weight: 700; }
+
+/* ---------- LINKS ----------
+   Sublinhado sempre visível: o link não pode ser identificado só pela cor
+   (WCAG 1.4.1). Visitados ganham outra cor. */
+a {
+  color: var(--cor-primaria);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+a:visited { color: var(--cor-link-visitado); }
+a:hover { color: var(--cor-destaque); text-decoration-thickness: 2px; }
+
+/* ---------- LISTAS ---------- */
+ul, ol { padding-left: var(--espaco-l); }  /* recua os marcadores */
+li + li { margin-top: var(--espaco-xs); }
+
+/* ---------- FOCO VISÍVEL (WCAG 2.4.7) ----------
+   Quem navega por teclado precisa ver onde está. :focus-visible aparece só
+   no teclado, não no clique do mouse. NUNCA use "outline: none" sem
+   substituir por outro indicador. */
+:focus-visible {
+  outline: var(--espessura-foco) solid var(--cor-destaque);
+  outline-offset: 3px;
+}
+
+/* ---------- SKIP LINK (WCAG 2.4.1) ----------
+   Fica fora da tela e aparece ao receber foco (primeiro Tab da página). */
+.skip-link {
+  position: absolute;
+  left: -999px;            /* fora da tela, mas ainda focável */
+  top: 0;
+}
+.skip-link:focus {
+  left: var(--espaco-m);
+  top: var(--espaco-m);
+  z-index: 30;             /* acima do cabeçalho e do rodapé fixos (z-index 20) */
+  padding: var(--espaco-s) var(--espaco-m);
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  border: 2px solid var(--cor-destaque);
+  border-radius: var(--raio);
+}
+
+/* ---------- ALVO DE SALTO ----------
+   O <main> recebe foco via skip link; o contorno não é necessário nele. */
+main:focus { outline: none; }
+
+/* Com cabeçalho e rodapé fixos, é preciso reservar espaço na rolagem:
+   - scroll-padding-top: links do menu (#sobre etc.) não ficam escondidos
+     atrás do cabeçalho;
+   - scroll-padding-bottom: o campo focado pelo Tab não fica atrás do rodapé
+   (WCAG 2.4.11 — Foco não obscurecido).
+   Valores em rem, que acompanham o zoom do usuário. */
+html {
+  scroll-padding-top: 9rem;
+  scroll-padding-bottom: 5rem;
+}
+@media (min-width: 900px) {
+  html { scroll-padding-top: 7rem; }
+}

@@ -1,0 +1,76 @@
+/* ==========================================================================
+   VARIAVEIS.CSS  |  Segundo arquivo
+   Todas as cores, fontes e espaços do site ficam aqui. Para mudar a
+   identidade visual, basta alterar este arquivo.
+   Uso nos outros arquivos:  color: var(--cor-texto);
+   ========================================================================== */
+
+:root {
+  /* O site usa um único tema claro. A acessibilidade de cor é tratada pela
+     PALETA PARA DALTONISMO (mais abaixo), escolhida pelo usuário. */
+  color-scheme: light;
+
+  /* ---------- CORES (paleta padrão) ----------
+     Contrastes medidos com WebAIM (WCAG 1.4.3 exige 4,5:1 para texto):
+     texto #1a1a1a / fundo #fff ........ 17,4:1
+     primaria #1f3a5f / fundo #fff ..... 11,5:1
+     destaque #0b6e4f / fundo #fff .....  6,3:1
+     borda #767676 / fundo #fff ........  4,5:1 (componentes pedem 3:1) */
+  --cor-fundo: #ffffff;
+  --cor-texto: #1a1a1a;
+  --cor-primaria: #1f3a5f;      /* títulos, links, botões */
+  --cor-destaque: #0b6e4f;      /* foco, hover, realces */
+  --cor-borda: #767676;         /* bordas de campos, cards e tabelas */
+  --cor-superficie: #e8eef6;    /* fundo de cards, cabeçalho de tabela */
+  --cor-texto-botao: #ffffff;   /* texto sobre fundo de botão */
+  --cor-link-visitado: #5b2a86;
+  --cor-erro: #b91c1c;          /* mensagens e bordas de erro (contraste 6,5:1) */
+
+  /* ---------- TIPOGRAFIA ----------
+     Fontes do sistema: carregam rápido e são familiares ao usuário. */
+  --fonte-base: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --tamanho-base: 1rem;         /* 16px, ajustável pelo usuário (WCAG 1.4.4) */
+  --altura-linha: 1.5;          /* entrelinha confortável (WCAG 1.4.12) */
+
+  /* ---------- ESPAÇOS (escala consistente) ---------- */
+  --espaco-xs: 0.25rem;
+  --espaco-s: 0.5rem;
+  --espaco-m: 1rem;
+  --espaco-l: 2rem;
+  --espaco-xl: 3rem;
+
+  /* ---------- FORMAS E MEDIDAS ---------- */
+  --raio: 0.5rem;               /* cantos arredondados */
+  --largura-maxima: 60rem;      /* largura máxima de leitura */
+  --alvo-minimo: 2.75rem;       /* 44px: área de clique (WCAG 2.5.8) */
+  --espessura-foco: 3px;
+}
+
+/* ---------- PALETA PARA DALTONISMO ----------
+   Ativada pelo botão "Modo daltonismo" (js/tema.js grava
+   data-paleta="daltonismo" no <html>). Só as variáveis mudam; o resto do CSS
+   continua igual.
+
+   Por que esta paleta? Baseia-se na paleta de Okabe e Ito, desenhada para
+   ser distinguível por pessoas com protanopia, deuteranopia e tritanopia
+   (as formas mais comuns de daltonismo). A regra de ouro é evitar pares
+   VERMELHO x VERDE e usar AZUL x LARANJA, que se separam bem em todos os
+   tipos, e que também diferem em luminosidade.
+   Contraste sobre o fundo branco (todas passam de 4,5:1 e também sobre a
+   cor de superfície dos cards):
+     primaria (azul)     #00598f ... 7.4:1
+     destaque (laranja)  #a63d00 ... 6.4:1
+     erro (laranja)      #9e3a00 ... 6.9:1
+     link visitado       #7a2e6e ... 8.6:1
+   O erro NUNCA depende só da cor: tem o prefixo "Erro:" e borda tracejada. */
+:root[data-paleta="daltonismo"] {
+  --cor-fundo: #ffffff;
+  --cor-texto: #1a1a1a;
+  --cor-primaria: #00598f;
+  --cor-destaque: #a63d00;
+  --cor-borda: #767676;
+  --cor-superficie: #e6f1f8;
+  --cor-texto-botao: #ffffff;
+  --cor-link-visitado: #7a2e6e;
+  --cor-erro: #9e3a00;
+}

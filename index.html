@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!-- O atributo lang informa o idioma da página: o leitor de tela usa a
+     pronúncia correta. Critério WCAG 3.1.1 — Idioma da página. -->
+<html lang="pt-BR">
+
+<head>
+  <!-- charset UTF-8 garante a acentuação correta (á, ç, ã...). -->
+  <meta charset="UTF-8" />
+
+  <!-- viewport: base do design responsivo (mobile-first). -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Aplica a paleta salva ANTES de a página ser desenhada, evitando um
+       "pisca" de cores. O restante da lógica fica em js/tema.js. -->
+  <script>
+    try { if (localStorage.getItem('paleta') === 'daltonismo') document.documentElement.setAttribute('data-paleta', 'daltonismo'); } catch (e) {}
+  </script>
+
+  <!-- title descritivo e único: aparece na aba e é a primeira coisa lida
+       por leitores de tela. Critério WCAG 2.4.2 — Título da página. -->
+  <title>Portfólio — Gustavo Kogistski Correa | Desenvolvimento de Sistemas</title>
+
+  <!-- CSS: a ORDEM importa (do mais geral para o mais específico). -->
+  <link rel="stylesheet" href="css/reset.css" />        <!-- zera diferenças entre navegadores -->
+  <link rel="stylesheet" href="css/variaveis.css" />    <!-- cores, fontes, espaços e paleta para daltonismo -->
+  <link rel="stylesheet" href="css/base.css" />         <!-- texto, links, foco, skip link -->
+  <link rel="stylesheet" href="css/layout.css" />       <!-- cabeçalho fixo, grids, responsividade -->
+  <link rel="stylesheet" href="css/componentes.css" />  <!-- menu, cards, tabela, formulário, botões -->
+
+  <!-- JavaScript com "defer": o navegador só executa o script depois de ler
+       todo o HTML, então os elementos já existem quando o código roda. -->
+  <script src="js/menu.js" defer></script>        <!-- menu hambúrguer (Encontro 7) -->
+  <script src="js/tema.js" defer></script>        <!-- modo daltonismo (Encontro 7) -->
+  <script src="js/formulario.js" defer></script>  <!-- validação do formulário (Encontro 8) -->
+</head>
+
+<body>
+
+  <!-- =========================================================
+       SKIP LINK (WCAG 2.4.1 — Ignorar blocos)
+       Primeiro elemento focável da página. Fica invisível até
+       receber Tab. O href aponta para o id do <main>.
+       ========================================================= -->
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
+  <!-- =========================================================
+       CABEÇALHO
+       Contém o título principal (h1), o cargo, a navegação e o
+       botão do modo daltonismo. O CSS posiciona cada item com Grid e mantém o cabeçalho
+       fixo no topo (position: sticky), com a página passando por trás.
+       ========================================================= -->
+  <header>
+    <h1>Kogistski Correa</h1>
+    <p>Estudante do Curso Técnico em Desenvolvimento de Sistemas</p>
+
+    <!-- NAVEGAÇÃO PRINCIPAL
+         aria-label="Principal" identifica este nav para leitores de tela
+         (útil se existirem outros navs, como o do rodapé). -->
+    <nav aria-label="Principal">
+      <!-- Botão do menu hambúrguer (só aparece no celular, com JS ativo).
+           aria-expanded: informa se o menu está aberto ou fechado.
+           aria-controls: indica qual elemento o botão controla.
+           WCAG 4.1.2 — Nome, função, valor. -->
+      <button type="button" class="menu-botao"
+              aria-expanded="false" aria-controls="menu-principal">Menu</button>
+
+      <ul id="menu-principal">
+        <!-- Links com texto descritivo (WCAG 2.4.4): evitamos "clique aqui".
+             aria-current="page" marca a página atual. -->
+        <li><a href="#sobre">Sobre mim</a></li>
+        <li><a href="#formacao">Formação</a></li>
+        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+
+    <!-- Modo daltonismo: troca a paleta de cores por uma desenhada para quem
+         tem daltonismo (azul e laranja no lugar de verde e vermelho) e liga
+         reforços que não dependem de cor. aria-pressed informa o estado
+         ligado/desligado. O texto do botão NÃO muda: só o estado é atualizado
+         por js/tema.js, que também lembra a escolha (localStorage). -->
+    <button type="button" id="botao-daltonismo" aria-pressed="false">Modo daltonismo</button>
+  </header>
+
+  <!-- =========================================================
+       CONTEÚDO PRINCIPAL
+       O id="conteudo-principal" é o destino do skip link.
+       Só pode haver UM <main> por página.
+       tabindex="-1" permite receber foco via skip link (sem entrar
+       na ordem do Tab).
+       ========================================================= -->
+  <main id="conteudo-principal" tabindex="-1">
+
+    <!-- ============================ SOBRE ============================
+         aria-labelledby liga a seção ao seu título (h2), dando um nome
+         à região para leitores de tela. -->
+    <section id="sobre" aria-labelledby="titulo-sobre">
+      <h2 id="titulo-sobre">Sobre mim</h2>
+
+      <!-- Imagem de perfil com alt descritivo (WCAG 1.1.1).
+           Troque img/perfil.jpg pela sua foto e descreva-a no alt.
+           Se a imagem fosse apenas decorativa, o correto seria alt="".
+           width/height evitam "saltos" no layout durante o carregamento. -->
+      <img src="img/perfil.jpg" width="400" height="400"
+           alt="Retrato de Seu Nome (troque por uma descrição da sua foto)" />
+
+      <!-- class="texto-justificado": parágrafo justificado (definida em css/style.css). -->
+      <p class="texto-justificado">
+        Sou estudante do 3º ano do Curso Técnico em Desenvolvimento de Sistemas.
+        Tenho interesse em desenvolvimento web, lógica de programação,
+        banco de dados e acessibilidade digital, e busco uma oportunidade de
+        estágio para aplicar o que aprendi em projetos reais.
+      </p>
+    </section>
+
+    <!-- ============================ FORMAÇÃO ============================ -->
+    <section id="formacao" aria-labelledby="titulo-formacao">
+      <h2 id="titulo-formacao">Formação</h2>
+
+      <!-- Tabela de dados (WCAG 1.3.1).
+           caption: título da tabela.
+           th scope="col": cabeçalho de coluna / th scope="row": cabeçalho de linha. -->
+      <table>
+        <caption>Formação acadêmica</caption>
+        <thead>
+          <tr>
+            <th scope="col">Curso</th>
+            <th scope="col">Instituição</th>
+            <th scope="col">Período</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Curso Técnico em Desenvolvimento de Sistemas</th>
+            <td>Professor Loureiro Fernandes</td>
+            <td>3º ano — TDS</td>
+          </tr>
+          <tr>
+            <th scope="row">Ensino Médio</th>
+            <td>Professor Loureiro Fernandes</td>
+            <td>Concluído em 2026</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============================ HABILIDADES ============================ -->
+    <section id="habilidades" aria-labelledby="titulo-habilidades">
+      <h2 id="titulo-habilidades">Habilidades</h2>
+
+      <!-- Lista não ordenada: a ordem não é relevante. O CSS a exibe
+           como "etiquetas" lado a lado. -->
+      <ul>
+        <li>HTML5 semântico</li>
+        <li>CSS3 (Flexbox, Grid)</li>
+        <li>JavaScript (DOM, fetch)</li>
+        <li>Lógica de programação</li>
+        <li>Banco de dados (SQL)</li>
+        <li>Git e GitHub</li>
+        <li>Acessibilidade (WCAG)</li>
+      </ul>
+    </section>
+
+    <!-- ============================ PROJETOS (RESUMO) ============================ -->
+    <section id="projetos" aria-labelledby="titulo-projetos">
+      <h2 id="titulo-projetos">Projetos</h2>
+
+      <!-- <article> para cada projeto: conteúdo independente, que faria
+           sentido fora de contexto. O CSS o exibe como um "card". -->
+      <article>
+        <h3>Portfólio Acessível</h3>
+        <p class="texto-justificado">
+          Site pessoal construído com HTML semântico, CSS responsivo
+          e JavaScript, seguindo a WCAG 2.2 nível AA.
+        </p>
+        <!-- Link descritivo: o leitor de tela entende o destino fora de contexto. -->
+        <a href="projetos.html">Ver todos os projetos</a>
+      </article>
+    </section>
+
+    <!-- ============================ CONTATO ============================ -->
+    <section id="contato" aria-labelledby="titulo-contato">
+      <h2 id="titulo-contato">Contato</h2>
+      <p class="texto-justificado">
+        Você pode falar comigo pelo e-mail
+        <a href="mailto:gustavo.kogistski@gmail.com">gustavo.kogistski@gmail.com</a>
+        ou pelo LinkedIn:
+        <!-- target="_blank" abre em nova aba; rel="noopener noreferrer" evita
+             riscos de segurança. O texto avisa que abre em nova aba (WCAG 3.2.5). -->
+        <a href="https://www.linkedin.com/in/seu-perfil"
+           target="_blank" rel="noopener noreferrer">Perfil no LinkedIn (abre em nova aba)</a>.
+      </p>
+
+      <!-- FORMULÁRIO DE CONTATO
+           novalidate é adicionado por js/formulario.js para usar mensagens
+           próprias e acessíveis. action="#" porque não há servidor: o envio
+           é apenas uma simulação. -->
+      <form id="form-contato" action="#" method="post">
+
+        <!-- Todo campo tem <label for> ligado ao id do campo (WCAG 3.3.2 e 4.1.2).
+             autocomplete ajuda o preenchimento automático (WCAG 1.3.5).
+             required marca o campo como obrigatório. -->
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="nome" autocomplete="name" required />
+
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" autocomplete="email" required />
+
+        <!-- fieldset + legend agrupam opções relacionadas com um título. -->
+        <fieldset>
+          <legend>Como prefere ser respondido?</legend>
+          <input type="radio" id="resp-email" name="resposta" value="email" checked />
+          <label for="resp-email">Por e-mail</label>
+          <input type="radio" id="resp-tel" name="resposta" value="telefone" />
+          <label for="resp-tel">Por telefone</label>
+        </fieldset>
+
+        <label for="mensagem">Mensagem</label>
+        <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+
+        <button type="submit">Enviar mensagem</button>
+
+        <!-- Região de status: o leitor de tela anuncia o texto quando ele muda
+             (sucesso ou resumo de erros). WCAG 4.1.3 — Mensagens de status. -->
+        <p id="resumo-form" role="status"></p>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       RODAPÉ
+       Informação secundária: autoria, ano, contato rápido.
+       ========================================================= -->
+  <footer>
+    <p>&copy; 2026 Seu Nome Sobrenome — Projeto acadêmico.</p>
+    <p>Feito com HTML, CSS, JavaScript e foco em acessibilidade.</p>
+  </footer>
+
+</body>
+</html>

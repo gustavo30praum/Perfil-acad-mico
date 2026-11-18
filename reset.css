@@ -1,0 +1,45 @@
+/* ==========================================================================
+   RESET.CSS  |  Primeiro arquivo a ser carregado
+   Objetivo: remover diferenças de estilo padrão entre navegadores e criar
+   uma base previsível. Não deixa nada "feio": só neutraliza.
+   ========================================================================== */
+
+/* box-sizing: border-box faz padding e borda ficarem DENTRO da largura
+   declarada. Sem isso, width: 100% + padding estoura a tela (WCAG 1.4.10). */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove margens padrão; o espaçamento será definido por nós, com variáveis. */
+body, h1, h2, h3, h4, p, ul, ol, figure, fieldset, legend {
+  margin: 0;
+}
+
+/* Listas: padding zerado. Cada lista receberá o estilo certo em base.css. */
+ul, ol {
+  padding: 0;
+}
+
+/* Imagens nunca ultrapassam o contêiner e mantêm a proporção (WCAG 1.4.10). */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Campos de formulário herdam a fonte da página. Por padrão o navegador
+   usa uma fonte menor e diferente, o que prejudica a leitura. */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Evita que o usuário redimensione o textarea para fora da página. */
+textarea {
+  resize: vertical;
+}
